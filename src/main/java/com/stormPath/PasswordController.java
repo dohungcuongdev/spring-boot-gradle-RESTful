@@ -7,10 +7,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
+ * The main controller for handling the requests
+ *
  * Author sumitk
  * Date   10/5/15
  */
-
 @RestController
 @EnableAutoConfiguration
 public class PasswordController {
