@@ -9,8 +9,11 @@ package com.stormPath;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.ComponentScan;
 
+// same as @Configuration + @ComponentScan + @EnableAutoConfiguration
 @SpringBootApplication
+@ComponentScan("com.stormPath")
 public class PasswordApplication {
 
     /**
@@ -20,6 +23,6 @@ public class PasswordApplication {
      * @throws Exception
      */
     public static void main (String [] args) throws Exception {
-        SpringApplication.run(PasswordController.class, args);
+        SpringApplication.run(PasswordApplication.class, args);
     }
 }

@@ -1,6 +1,7 @@
 package com.stormPath;
 
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.stereotype.Component;
+
 import java.util.regex.Pattern;
 
 /**
@@ -9,14 +10,16 @@ import java.util.regex.Pattern;
  * Author sumitk
  * Date   10/5/15
  */
-@EnableAutoConfiguration
-public class PasswordValidator {
+
+@Component
+public class PasswordValidator implements PasswordValidatorInterface {
 
     /**
      * Regex patters for simple matching
      */
-    private final Pattern hasUppercase = Pattern.compile("[A-Z]");
-    private final Pattern hasNumber = Pattern.compile("\\d");
+    private final Pattern hasUppercase   = Pattern.compile("[A-Z]");
+    private final Pattern hasLowercase   = Pattern.compile("[a-z]");
+    private final Pattern hasNumber      = Pattern.compile("\\d");
     private final Pattern hasSpecialChar = Pattern.compile("[^a-zA-Z0-9 ]");
 
     /**
@@ -31,7 +34,7 @@ public class PasswordValidator {
         String passwordToCheck = password.getPassword();
 
         if (!this.isLengthValid(passwordToCheck)) {
-            return new Response(101, "Invalid Password! Password must be between 5 to 12 characters long." + passwordToCheck.length() + "-" + passwordToCheck);
+            return new Response(101, "Invalid Password! Password must be between 5 to 12 characters long.");
         } else if (this.hasInvalidChars(passwordToCheck)) {
             return new Response(102, "Invalid Password! It can only contain a lowercase letter and number.");
         } else if (this.hasRepeatedSequence(passwordToCheck)) {
@@ -65,7 +68,11 @@ public class PasswordValidator {
      */
     public Boolean hasInvalidChars(String password) {
 
-        if (!hasNumber.matcher(password).find() || hasUppercase.matcher(password).find() || hasSpecialChar.matcher(password).find()){
+        if (!hasNumber.matcher(password).find()             // handle no number present
+                || hasUppercase.matcher(password).find()    // handle uppercase letter
+                || hasSpecialChar.matcher(password).find()  // handle special characters
+                || (hasNumber.matcher(password).find() && !hasLowercase.matcher(password).find()) // handle only number present
+        ){
             return Boolean.TRUE;
         } else {
             return Boolean.FALSE;
