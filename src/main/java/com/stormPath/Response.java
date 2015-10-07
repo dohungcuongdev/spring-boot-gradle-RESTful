@@ -4,7 +4,7 @@ package com.stormPath;
  * A custom response class that sends a Response object with message and a code for the processed request
  *
  * Author sumitk
- * Date   10/5/15
+ * Date   10/6/15
  */
 public class Response {
 

@@ -11,30 +11,21 @@ import org.springframework.web.bind.annotation.RestController;
  * The main controller for handling the requests
  *
  * Author sumitk
- * Date   10/5/15
+ * Date   10/6/15
  */
 @RestController
 @EnableAutoConfiguration
 public class PasswordController {
 
-    public PasswordValidatorInterface passwordValidatorInterface;
-
-    /**
-     * Autowired PasswordValidator bean to do the actual password validation
-     * @param passwordValidatorInterface - Interface for password validation rules
-     */
     @Autowired
-    public PasswordController(PasswordValidatorInterface passwordValidatorInterface) {
-        this.passwordValidatorInterface = passwordValidatorInterface;
-    }
+    public PasswordValidator passwordValidator;
 
     @RequestMapping(value = "/validate", method = RequestMethod.POST, consumes = "application/json")
     public Response validatePassword(@RequestBody Password password) {
 
         // Without Spring DI - create a new object and do the password validation
         //PasswordValidator passwordValidator = new PasswordValidator();
-        Response response = passwordValidatorInterface.validatePassword(password);
-
+        Response response = passwordValidator.validatePassword(password);
         return response;
     }
 

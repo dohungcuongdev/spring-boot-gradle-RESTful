@@ -8,7 +8,7 @@ import java.util.regex.Pattern;
  * The validator class that checks for the validity of the password
  *
  * Author sumitk
- * Date   10/5/15
+ * Date   10/6/15
  */
 
 @Component
@@ -23,6 +23,15 @@ public class PasswordValidator implements PasswordValidatorInterface {
     private final Pattern hasSpecialChar = Pattern.compile("[^a-zA-Z0-9 ]");
 
     /**
+     * Custom Response code for this application
+     */
+    protected final int RESPONSE_CODE_ERROR_INVALID_LENGTH    = 101;
+    protected final int RESPONSE_CODE_ERROR_INVALID_CHAR      = 102;
+    protected final int RESPONSE_CODE_ERROR_REPEATED_SEQUENCE = 103;
+    protected final int RESPONSE_CODE_SUCCESSFUL  = 200;
+
+
+    /**
      * This function validates the password according to the rules
      *
      * @param password - The password that needs to be validated
@@ -34,13 +43,13 @@ public class PasswordValidator implements PasswordValidatorInterface {
         String passwordToCheck = password.getPassword();
 
         if (!this.isLengthValid(passwordToCheck)) {
-            return new Response(101, "Invalid Password! Password must be between 5 to 12 characters long.");
+            return new Response(RESPONSE_CODE_ERROR_INVALID_LENGTH, "Invalid Password! Password must be between 5 to 12 characters long.");
         } else if (this.hasInvalidChars(passwordToCheck)) {
-            return new Response(102, "Invalid Password! It can only contain a lowercase letter and number.");
+            return new Response(RESPONSE_CODE_ERROR_INVALID_CHAR, "Invalid Password! It can only contain a lowercase letter and number.");
         } else if (this.hasRepeatedSequence(passwordToCheck)) {
-            return new Response(103, "Invalid Password! It has same sequence of characters.");
+            return new Response(RESPONSE_CODE_ERROR_REPEATED_SEQUENCE, "Invalid Password! It has same sequence of characters.");
         } else {
-            return new Response(200, "Password is valid!");
+            return new Response(RESPONSE_CODE_SUCCESSFUL, "Password is valid!");
         }
     }
 

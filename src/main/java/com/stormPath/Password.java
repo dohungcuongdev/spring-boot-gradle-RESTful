@@ -4,7 +4,7 @@ package com.stormPath;
  * This is the Password class that stores the password for the application
  *
  * Author sumitk
- * Date   10/5/15
+ * Date   10/6/15
  */
 public class Password {
     private String password;
